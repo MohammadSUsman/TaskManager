@@ -11,7 +11,7 @@ import CoreData
 
 class TaskDetailViewController: UIViewController {
 
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     @IBOutlet var txtDesc: UITextField!
     

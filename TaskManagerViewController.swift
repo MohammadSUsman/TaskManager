@@ -11,7 +11,7 @@ import CoreData
 
 class TaskManagerViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
 
@@ -25,10 +25,10 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "edit" {
-            let cell = sender as UITableViewCell
+            let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPathForCell(cell)
-            let taskController:TaskDetailViewController = segue.destinationViewController as TaskDetailViewController
-            let task:Tasks = fetchedResultController.objectAtIndexPath(indexPath!) as Tasks
+            let taskController:TaskDetailViewController = segue.destinationViewController as! TaskDetailViewController
+            let task:Tasks = fetchedResultController.objectAtIndexPath(indexPath!) as! Tasks
             taskController.task = task
         }
     }
@@ -64,20 +64,20 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-            let task = fetchedResultController.objectAtIndexPath(indexPath) as Tasks
+            var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+            let task = fetchedResultController.objectAtIndexPath(indexPath) as! Tasks
             cell.textLabel?.text = task.desc
             return cell
     }
     
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        let managedObject:NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as NSManagedObject
+        let managedObject:NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as! NSManagedObject
         managedObjectContext?.deleteObject(managedObject)
         managedObjectContext?.save(nil)
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
     }
 }
