@@ -24,6 +24,15 @@ class TaskDetailViewController: UIViewController {
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    // MARK:- IBActions
+    
+    
     @IBAction func done(sender: AnyObject) {
         if task != nil {
             editTask()
@@ -37,9 +46,13 @@ class TaskDetailViewController: UIViewController {
          dismissViewController()
     }
     
+    // MARK:- Dismiss ViewControllers
+    
     func dismissViewController() {
         navigationController?.popViewControllerAnimated(true)
     }
+    
+    // MARK:- Create task
     
     func createTask() {
         let entityDescripition = NSEntityDescription.entityForName("Tasks", inManagedObjectContext: managedObjectContext!)
@@ -48,15 +61,11 @@ class TaskDetailViewController: UIViewController {
         managedObjectContext?.save(nil)
     }
     
+    // MARK:- Edit task
+    
     func editTask() {
         task?.desc = txtDesc.text
         managedObjectContext?.save(nil)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
 }

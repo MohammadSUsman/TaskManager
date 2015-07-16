@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAppearance()
         return true
     }
+    
+    //MARK :- Style
 
     func setupAppearance() {
         var navigationBarAppearance = UINavigationBar.appearance()

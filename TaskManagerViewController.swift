@@ -17,11 +17,13 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+º
         fetchedResultController = getFetchedResultController()
         fetchedResultController.delegate = self
         fetchedResultController.performFetch(nil)
     }
+    
+    // MARK:- PrepareForSegue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "edit" {
@@ -33,6 +35,7 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
         }
     }
     
+    // MARK:- Retrieve Tasks
     
     func getFetchedResultController() -> NSFetchedResultsController {
         fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
@@ -51,7 +54,7 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
         // Dispose of any resources that can be recreated.
     }
 
-    // #pragma mark - Table view data source
+    // MARK: - TableView data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         let numberOfSections = fetchedResultController.sections?.count
@@ -70,12 +73,15 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
             return cell
     }
     
+    // MARK: - TableView Deleteƒ
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let managedObject:NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as! NSManagedObject
         managedObjectContext?.deleteObject(managedObject)
         managedObjectContext?.save(nil)
     }
+    
+    // MARK: - TableView Refresh
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
