@@ -55,17 +55,23 @@ class TaskDetailViewController: UIViewController {
     // MARK:- Create task
     
     func createTask() {
-        let entityDescripition = NSEntityDescription.entityForName("Tasks", inManagedObjectContext: managedObjectContext!)
+        let entityDescripition = NSEntityDescription.entityForName("Tasks", inManagedObjectContext: managedObjectContext)
         let task = Tasks(entity: entityDescripition!, insertIntoManagedObjectContext: managedObjectContext)
-        task.desc = txtDesc.text
-        managedObjectContext?.save(nil)
+        task.desc = txtDesc.text!
+        do {
+            try managedObjectContext.save()
+        } catch _ {
+        }
     }
     
     // MARK:- Edit task
     
     func editTask() {
-        task?.desc = txtDesc.text
-        managedObjectContext?.save(nil)
+        task?.desc = txtDesc.text!
+        do {
+            try managedObjectContext.save()
+        } catch _ {
+        }
     }
     
 }
