@@ -17,10 +17,12 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-º
         fetchedResultController = getFetchedResultController()
         fetchedResultController.delegate = self
-        fetchedResultController.performFetch(nil)
+        do {
+            try fetchedResultController.performFetch()
+        } catch _ {
+        }
     }
     
     // MARK:- PrepareForSegue
@@ -38,7 +40,7 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
     // MARK:- Retrieve Tasks
     
     func getFetchedResultController() -> NSFetchedResultsController {
-        fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         return fetchedResultController
     }
     
@@ -67,7 +69,7 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
             let task = fetchedResultController.objectAtIndexPath(indexPath) as! Tasks
             cell.textLabel?.text = task.desc
             return cell
@@ -77,8 +79,11 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let managedObject:NSManagedObject = fetchedResultController.objectAtIndexPath(indexPath) as! NSManagedObject
-        managedObjectContext?.deleteObject(managedObject)
-        managedObjectContext?.save(nil)
+        managedObjectContext.deleteObject(managedObject)
+        do {
+            try managedObjectContext.save()
+        } catch _ {
+        }
     }
     
     // MARK: - TableView Refresh
